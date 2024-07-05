@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="3d/style.css">
+        <style>
+            body {
+                background-color: #000000;
+                color: #ffffff;
+            }
+            a {
+                color: #a0a0a0;
+            }
+        </style>
+	</head>
+	<body>
+		
+		<div id="cursor"></div>
+
+		<div id="container"></div>
+		<div id="info"><a href="https://threejs.org" target="_blank" rel="noopener"></div>
+
+        <script type="importmap">
+            {
+              "imports": {
+                "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/"
+              }
+            }
+          </script>
+
+        <script type="x-shader/x-vertex" id="vertexshader">
+
+			uniform float amplitude;
+
+			attribute vec3 customColor;
+			attribute vec3 displacement;
+
+			varying vec3 vNormal;
+			varying vec3 vColor;
+
+			void main() {
+
+				vNormal = normal;
+				vColor = customColor;
+
+				vec3 newPosition = position + normal * amplitude * displacement;
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+
+			}
+
+		</script>
+        <script type="x-shader/x-fragment" id="fragmentshader">
+
+			varying vec3 vNormal;
+			varying vec3 vColor;
+
+			void main() {
+
+				const float ambient = 0.4;
+
+				vec3 light = vec3( 1.0 );
+				light = normalize( light );
+
+				float directional = max( dot( vNormal, light ), 0.0 );
+
+				gl_FragColor = vec4( ( directional + ambient ) * vColor, 1.0 );
+
+			}
+
+		</script>
+
+		<script type="module" src="3d/app.js"></script>
+
+		<script>
+			window.addEventListener('load', function() {
+            	document.body.classList.add('loaded');
+        	});
+		</script>
+
+	</body>
+</html>

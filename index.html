@@ -1,35 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title></title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="style.css">
-        <style>
-            body {
-                background-color: #000000;
-                color: #ffffff;
-            }
-            a {
-                color: #a0a0a0;
-            }
-        </style>
-	</head>
-	<body>
+<head>
 
-		<div id="container"></div>
-		<div id="info"><a href="https://threejs.org" target="_blank" rel="noopener"></div>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <script type="importmap">
-            {
-              "imports": {
-                "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/"
-              }
-            }
-          </script>
+	<title>Document</title>
 
-		<script type="module" src="app.js"></script>
+	<script src="2d/libs/gsap/gsap.min.js" defer></script>
+	<script src="2d/libs/gsap/ScrollTrigger.min.js" defer></script>
+	<script src="2d/libs/gsap/ScrollSmoother.min.js" defer></script>
 
-	</body>
+	<link rel="stylesheet" href="2d/css/main.css">
+	<script src="2d/js/app.js" defer></script>
+	<script src="2d/js/translate.js" defer></script>
+
+</head>
+<body>
+
+	<div id="cursor"></div>
+
+	<div class="wrapper">
+		<div class="content">
+
+			<header class="hero-section">
+				<img data-speed=".6" class="hero" src="2d/img/heroMain1.png" alt="Alt" >
+				<div class="container">
+					<div data-speed=".75" class="main-header">
+						<h1 class="main-title">Dmitry Ganotskiy</h1>
+					</div>
+				</div>
+			</header>
+		
+			<div class="portfolio">
+				<div class="container">
+
+					<div class="langs">
+						<a href="#" language="english" class="active">ENG</a>
+						<a href="#" language="russian">РУС</a>
+						<a href="#" language="deutsch">DE</a>
+					</div>
+
+					<main class="gallery">
+	
+						<div data-speed=".9" class="gallery__left">
+		
+							<img class="gallery__item" src="2d/img/work/1p.jpg" alt="Alt">
+							<div class="text-block gallery__item">
+								<h2 class="text-block__h">JavaScript · SQL Server Management Studio · HTML5 · CSS</h2>
+								<p class="text-block__p" id="platform">Developed a 2D platform game using HTML and JavaScript, featuring complex mechanics including fluid character movement, robust collision detection, rich animations, and complex gameplay strategies, diverse levels, sounds, textures,  and strategic gameplay.</p>
+							</div>
+
+							<img class="gallery__item" src="2d/img/work/2p.jpg" alt="Alt">		
+							<div class="text-block gallery__item">
+								<h2 class="text-block__h">JavaScript · ThreeJs · HTML5 · CSS</h2>
+								<p class="text-block__p" id="museum">Developed an immersive and interactive website dedicated to the Louvre Museum using JavaScript and Three.js. The project showcases advanced web technologies and creative design elements, providing users with a virtual tour experience of the museum.</p>
+							</div>
+		
+							<img class="gallery__item" src="2d/img/work/6p.jpg" alt="Alt">
+							<div class="text-block gallery__item">
+								<h2 class="text-block__h">JavaScript · ThreeJS · HTML5 · CSS</h2>
+								<p class="text-block__p" id="starwars">Developed a Star Wars-themed flight combat game using JavaScript and Three.js. The game features space battles, flying mechanics, and detailed 3D models of iconic Star Wars spacecraft.</p>
+							</div>
+
+							<img class="gallery__item" src="2d/img/work/8p.jpg" alt="Alt">
+							<div class="text-block gallery__item">
+								<h2 class="text-block__h">Python· Ursina Engine</h2>
+								<p class="text-block__p" id="rubik">Developed a 3D Rubik's Cube simulator using Python and the Ursina 3D game engine. This project allows users to interact with a virtual Rubik's Cube, manipulate its pieces manually, and explore different solving strategies.</p>
+							</div>
+
+							<img class="gallery__item" src="2d/img/work/9p.jpg" alt="Alt">
+							<div class="text-block gallery__item">
+								<h2 class="text-block__h">JavaScript · TurnJS · TeenJS · ThreeJS · HTML5 · CSS</h2>
+								<p class="text-block__p" id="book">Developed an interactive 3D webpage using Three.js, TWEEN.js, and Turn.js, showcasing advanced techniques in lighting, smooth animations, and dynamic content transitions. Integrated a realistic book-flipping experience with Turn.js, custom cursor effects, and particle animations to enhance user engagement and create an immersive storytelling environment.</p>
+							</div>
+		
+						</div>
+
+						<div data-speed="1.1" class="gallery__right">
+
+							<img class="gallery__item" src="2d/img/work/10p.jpg" alt="Alt">
+							<div class="text-block gallery__item">
+								<h2 class="text-block__h">JavaScript · TurnJS · TeenJS · ThreeJS · HTML5 · CSS</h2>
+								<p class="text-block__p" id="novel">Developed an interactive 3D webpage using Three.js, TWEEN.js, and Turn.js, showcasing advanced techniques in lighting, smooth animations, and dynamic content transitions. Integrated a realistic book-flipping experience with Turn.js, custom cursor effects, and particle animations to enhance user engagement and create an immersive storytelling environment.</p>
+							</div>
+		
+							<img class="gallery__item" src="2d/img/work/7p.jpg" alt="Alt">
+							<div class="text-block gallery__item">
+								<h2 class="text-block__h">JavaScript · HTML5 · CSS</h2>
+								<p class="text-block__p" id="paint">Developed a feature-rich painting application using JavaScript, HTML5 Canvas, and CSS. This project provides users with a versatile digital canvas where they can create artwork using various brushes, filters, shapes, and layering capabilities.</p>
+							</div>
+		
+							<img class="gallery__item" src="2d/img/work/4p.jpg" alt="Alt">
+							<div class="text-block gallery__item">
+								<h2 class="text-block__h">JavaScript · ThreeJS · HTML5 · CSS</h2>
+								<p class="text-block__p" id="shooter">Developed a first-person shooter game using JavaScript and Three.js, featuring immersive gameplay mechanics and dynamic environments.</p>
+							</div>
+
+							<img class="gallery__item" src="2d/img/work/5p.jpg" alt="Alt">
+							<div class="text-block gallery__item">
+								<h2 class="text-block__h">JavaScript · HTML5 · CSS</h2>
+								<p class="text-block__p" id="chess">Developed a fully functional chess game using JavaScript, providing a complete implementation of all standard chess mechanics. This project offers users a seamless and engaging way to play chess against a computer or another player.</p>
+							</div>
+
+							<img class="gallery__item" src="2d/img/work/3p.jpg" alt="Alt">
+							<div class="text-block gallery__item">
+								<h2 class="text-block__h">JavaScript · ThreeJs · HTML5 · CSS</h2>
+								<p class="text-block__p" id="block">Created a Minecraft-inspired 3D block-building web application using JavaScript and Three.js. This project allows users to place and destroy blocks within a virtual environment, offering a dynamic and interactive 3D experience.</p>
+							</div>
+
+							<img class="gallery__item" src="2d/img/work/11p.jpg" alt="Alt">
+							<div class="text-block gallery__item">
+								<h2 class="text-block__h">Python · Telegram API · Google API </h2>
+								<p class="text-block__p" id="telegram">Created a Telegram bot using Python that translates messages between different languages in real-time. This project leverages the Telegram Bot API and translation APIs to provide seamless communication across language barriers within the Telegram messaging platform.</p>
+							</div>
+		
+						</div>
+					</main>
+					<button class="button3d" onclick="transitionToPage('main.html')">3D</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</body>
+
+<script>
+	let lastScrollTop = 0;
+	let styleElement = document.createElement('style');
+	document.head.appendChild(styleElement);
+
+	window.addEventListener('scroll', function() {
+		let st = window.pageYOffset || document.documentElement.scrollTop;
+		if (st > lastScrollTop) {
+			// downscroll code
+			styleElement.innerHTML = `
+				::-webkit-scrollbar-thumb {
+					background: linear-gradient(transparent, #0051ff);
+				}
+				::-webkit-scrollbar-thumb:hover {
+					background: linear-gradient(transparent, #9500ff);
+				}
+			`;
+		} else {
+			// upscroll code
+			styleElement.innerHTML = `
+				::-webkit-scrollbar-thumb {
+					background: linear-gradient(#0051ff, transparent);
+				}
+				::-webkit-scrollbar-thumb:hover {
+					background: linear-gradient(#9500ff, transparent);
+				}
+			`;
+		}
+		lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+	}, false);
+
+	//cursor position
+	let cursor = document.getElementById("cursor");
+        document.addEventListener('mousemove', (e)=>{
+        	cursor.style.left = e.clientX + "px";
+        	cursor.style.top = e.clientY + "px";
+    });
+
+	//soft transition
+	window.transitionToPage = function(href) {
+			document.querySelector('body').style.opacity = 0
+			setTimeout(function() { 
+				window.location.href = href
+			}, 500)
+		}
+
+</script>
 </html>
