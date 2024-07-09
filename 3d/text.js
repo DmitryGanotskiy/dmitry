@@ -47,11 +47,15 @@ class AnimatedText {
     for (let f = 0; f < numFaces; f++) {
       const index = 9 * f;
 
-      const h = 0.6 + 0.1 * Math.random();
-      const s = 0.7 + 0.3 * Math.random();
-      const l = 0.5 + 0.3 * Math.random();
-
-      color.setHSL(h, s, l);
+      // Randomly set the color to white, gray, or dark gold
+      const randomColor = Math.floor(Math.random() * 3);
+      if (randomColor === 0) {
+        color.setRGB(1, 1, 1); // White
+      } else if (randomColor === 1) {
+        color.setRGB(0.5, 0.5, 0.5); // Gray
+      } else {
+        color.setRGB(0.72, 0.53, 0.04); // Dark Gold
+      }
 
       const d = 10 * (0.5 - Math.random());
 
@@ -73,6 +77,7 @@ class AnimatedText {
       uniforms: this.uniforms,
       vertexShader: document.getElementById('vertexshader').textContent,
       fragmentShader: document.getElementById('fragmentshader').textContent,
+      vertexColors: true
     });
 
     this.mesh = new THREE.Mesh(geometry, shaderMaterial);
@@ -87,4 +92,4 @@ class AnimatedText {
   }
 }
 
-export {AnimatedText};
+export { AnimatedText };

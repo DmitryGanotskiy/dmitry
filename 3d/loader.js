@@ -13,6 +13,10 @@ class ObjectManager {
         this.postament = null;
         this.temple = null;
         this.temple1 = null;
+        this.torch = null;
+        this.throne = null;
+        this.roman = null;
+        this.victor = null;
         this.collision = [];
     }
 
@@ -26,7 +30,7 @@ class ObjectManager {
                 const filename = path.split('/').pop();
     
                 if (filename === "frame.glb") {
-                    object.scale.set(0.1, 0.1, 0.1);
+                    object.scale.set(0.15, 0.15, 0.15);
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;
                     this.frame = object;
@@ -51,7 +55,7 @@ class ObjectManager {
                     object.rotation.y = rotation;
                     this.postament = object;
                 } else if (filename === "temple.glb") {
-                    object.scale.set(5, 5, 5);
+                    object.scale.set(8, 8, 8);
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;
                     this.temple = object;
@@ -60,10 +64,40 @@ class ObjectManager {
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;
                     this.temple1 = object;
+                } else if (filename === "torch.glb") {
+                    object.scale.set(0.15, 0.15, 0.15);
+                    object.position.set(position.x, position.y, position.z); 
+                    object.rotation.y = rotation;
+                    this.torch = object;
+                } else if (filename === "throne.glb") {
+                    object.scale.set(0.3, 0.3, 0.3);
+                    object.position.set(position.x, position.y, position.z); 
+                    object.rotation.y = rotation;
+                    this.throne = object;
+                } else if (filename === "roman.glb") {
+                    object.scale.set(30, 30, 30);
+                    object.position.set(position.x, position.y, position.z); 
+                    object.rotation.y = rotation;
+                    
+                    // Make the model slightly darker by adjusting material properties
+                    object.traverse((child) => {
+                        if (child.isMesh) {
+                            child.material.color.multiplyScalar(0.8); // Adjust the scalar to control darkness
+                        }
+                    });
+                
+                    this.roman = object;
                 }
+                else if (filename === "victor.glb") {
+                    object.scale.set(100, 100, 100);
+                    object.position.set(position.x, position.y, position.z); 
+                    object.rotation.y = rotation;
+                    this.victor = object;
+                }
+                
     
                 this.scene.add(object);
-                //console.log("Model loaded:", filename);
+                console.log("Model loaded:", filename);
             },
             (xhr) => {
                 console.log((xhr.loaded / xhr.total) * 100 + '% loaded');

@@ -1,7 +1,7 @@
 body {
 	margin: 0;
-	background-color: #000;
-	color: #fff;
+	background-color: #000000;
+    color: #ffffff;
 	font-family: Monospace;
 	font-size: 13px;
 	line-height: 24px;
@@ -17,7 +17,7 @@ body:hover #cursor{
 	opacity: 1;
 }
 a {
-	color: #ff0;
+	color: #a0a0a0;
 	text-decoration: none;
 }
 
@@ -112,3 +112,12 @@ a, button, input, select {
     transition: opacity 0.5s, background 0.5s;
     z-index: 5000; /* Ensure the cursor is above other elements */
   }
+
+#music{
+	z-index: -1000;
+	position:fixed;
+}
+#play{
+	z-index: 1000;
+	position:fixed;
+}

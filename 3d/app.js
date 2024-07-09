@@ -9,7 +9,7 @@ import { ImprovedNoise } from 'three/addons/math/ImprovedNoise.js';
 import { Stars } from './stars.js';
 import {AnimatedText} from './text.js';
 import {ObjectManager} from './loader.js';
-
+import {CharacterManager} from './character.js';
 
 class TerrainScene {
 	constructor() {
@@ -18,14 +18,22 @@ class TerrainScene {
 		this.clock = new THREE.Clock();
         this.gravity = 9.8;
         this.velocityY = 0;
-        this.objectRadius = 60;
-        this.centerPoint = new THREE.Vector3(239, 67, -944);
-		this.columnMeshes = [];
+        this.objectRadius = 80;
+        this.centerPoint = new THREE.Vector3(81, 98, -800);
+		this.frameMeshes = [];
+		this.previousCameraPositionFrame = new THREE.Vector3();
 		this.previousCameraPosition = new THREE.Vector3();
 		this.previousCameraPosition1 = new THREE.Vector3();
-        
+		this.previousCameraPositionTorch = new THREE.Vector3();
+		this.previousCameraPositionThrone = new THREE.Vector3();
+		this.previousCameraPositionRoman = new THREE.Vector3();
+        this.previousCameraPositionWalls = new THREE.Vector3()
+		this.characterManager = null;
+		this.characterManagerSeat = null;
+
 		this.init();
         this.loadModelsInCircle();
+		this.loadResources();
 	}
 
 	init() {
@@ -40,7 +48,7 @@ class TerrainScene {
 
 		const data = this.generateHeight(this.worldWidth, this.worldDepth);
 
-		this.camera.position.set(81, 98, -800);
+		this.camera.position.set(81, 110, -800);
 		this.camera.lookAt(2, 1, -2);
 
 		const geometry = new THREE.PlaneGeometry(7500, 7500, this.worldWidth - 1, this.worldDepth - 1);
@@ -74,13 +82,13 @@ class TerrainScene {
 
 
 		this.stats = new Stats();
-        this.animatedText = new AnimatedText(this.scene, new THREE.Vector3(81, 110, -620));
-
 		this.container.appendChild(this.stats.dom);
+
+        this.animatedText = new AnimatedText(this.scene, new THREE.Vector3(70, 110, -620));
 
         this.stars = new Stars(this.scene, 50);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // soft white light
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1); // soft white light
         this.scene.add(ambientLight);
 		
         this.loadModel = new ObjectManager(this.scene);
@@ -88,30 +96,45 @@ class TerrainScene {
 		window.addEventListener('resize', () => this.onWindowResize());
 	}
 
-    loadModelsInCircle(){
-		const numFrames = 4;
-		for (let i = 0; i < numFrames; i++) {
-			// Adjust the angle calculation to cover half of the circle
-			const angle = ((i / (numFrames - 1)) * Math.PI) - (Math.PI / 2);
-		
-			// Calculate position using polar coordinates
-			const x = this.centerPoint.x + this.objectRadius * Math.cos(angle);
-			const z = this.centerPoint.z + this.objectRadius * Math.sin(angle);
-		
-			// Calculate rotation
-			const rotationY = angle + Math.PI / 2; // Adjust rotation if necessary
-		
-			// Load model with calculated position and rotation
-			this.loadModel.loadModel('./img/frame.glb', { x: x, y: 58, z: z }, rotationY);
-		}
+	loadModelsInCircle() {
 
-		//load monument
-		this.loadModel.loadModel('./img/statue.glb', { x: 250, y: 75, z: -620 }, Math.PI/2);
-		this.loadModel.loadModel('./img/postament.glb', { x: 250, y: 65, z: -620 }, Math.PI);
-		//load temple
-		this.loadModel.loadModel('./img/temple.glb', { x: 250, y: 43, z: -750 }, Math.PI);
-		this.loadModel.loadModel('./img/temple1.glb', { x: 250, y: 43, z: -950 }, Math.PI/-2.5);
+	
+		// Load monument facing towards the center
+		this.loadModel.loadModel('./img/statue.glb', { x: 250, y: 73, z: -620 }, Math.PI / 2);
+		this.loadModel.loadModel('./img/postament.glb', { x: 250, y: 73, z: -625 }, Math.PI);
+		// Load temple facing towards the center
+		this.loadModel.loadModel('./img/temple.glb', { x: 250, y: 43, z: -830 }, Math.PI);
+		this.loadModel.loadModel('./img/temple1.glb', { x: 250, y: 43, z: -1100 }, -Math.PI / 4);
+		//castle
+		this.loadModel.loadModel('./img/torch.glb', { x: 10, y: 65, z: -1050 }, Math.PI/1.5);
+		const torchPosition = { x: 10, y: 110, z: -1050 };
+
+		const pointLight = new THREE.PointLight(0xffa500, 1, 200);
+		pointLight.position.set(torchPosition.x, torchPosition.y + 10, torchPosition.z);
+		this.scene.add(pointLight);
+		const spriteMap = new THREE.TextureLoader().load('./img/light.png');
+		const spriteMaterial = new THREE.SpriteMaterial({ map: spriteMap, color: 0xffa500 });
+		this.sprite = new THREE.Sprite(spriteMaterial);
+		this.sprite.position.set(torchPosition.x, torchPosition.y, torchPosition.z);
+		this.sprite.scale.set(80, 80, 1);
+		this.scene.add(this.sprite);
+
+		//corridor
+		this.loadModel.loadModel('./img/throne.glb', { x: -120, y: 70, z: -670 }, Math.PI/1.5);
+		//statues
+		this.loadModel.loadModel('./img/roman.glb', { x: -130, y: 57, z: -920 }, Math.PI/2.5);
+		this.loadModel.loadModel('./img/victor.glb', { x: 80, y: 70, z: -800 }, Math.PI);
     }
+
+	loadResources() {
+		try {
+			this.characterManager = new CharacterManager(this.scene, this.camera, "knight", "talk", new THREE.Vector3(250, 57, -1100), Math.PI*1.7, new THREE.Vector3(0.15,0.15,0.15));
+			this.characterManagerSeat = new CharacterManager(this.scene, this.camera, "knight", "seat", new THREE.Vector3(-107, 76, -677), Math.PI/1.4, new THREE.Vector3(0.3,0.3,0.3));
+			console.log("Resources loaded successfully");
+		} catch (error) {
+			console.error("Error loading resources:", error);
+		}
+	}
 
 	onWindowResize() {
 		this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -194,7 +217,7 @@ class TerrainScene {
 	}
 
 	walls() {
-        let wallGeometry = new THREE.CylinderGeometry(500, 500, 150, 16, 16, true);
+        let wallGeometry = new THREE.CylinderGeometry(1700, 1700, 150, 16, 16, true);
         let wallMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide, transparent: true, opacity: 0 });
         this.wall = new THREE.Mesh(wallGeometry, wallMaterial);
         this.wall.position.set(81, 60, -800);
@@ -214,13 +237,13 @@ class TerrainScene {
             const intersects = raycaster.intersectObject(this.wall, true);
 
             if (intersects.length > 0 && intersects[0].distance < 10) {
-                this.camera.position.copy(this.previousCameraPosition);
+                this.camera.position.copy(this.previousCameraPositionWalls);
                 return;
             }
         }
 
         // Save the current position as the previous position before updating it
-        this.previousCameraPosition.copy(this.camera.position);
+        this.previousCameraPositionWalls.copy(this.camera.position);
     }
 
     collision(){
@@ -232,7 +255,7 @@ class TerrainScene {
 		if (intersects.length > 0) {
 			const distance = intersects[0].distance;
 			const collisionPoint = raycaster.ray.origin.clone().add(raycaster.ray.direction.clone().multiplyScalar(distance));
-			this.camera.position.y = collisionPoint.y + 15;
+			this.camera.position.y = collisionPoint.y + 30;
             
 			this.velocityY = 0;
 		} else {
@@ -287,27 +310,106 @@ class TerrainScene {
 		}
 	}
 
-	collisionColumn() {
-
+	collideTempleTorch(coll) {
+		if (coll){
+			const directions = [
+				new THREE.Vector3(1, 0, 0), // Right
+				new THREE.Vector3(-1, 0, 0), // Left
+				new THREE.Vector3(0, 0, 1), // Forward
+				new THREE.Vector3(0, 0, -1) // Backward
+			];
+		
+			for (const direction of directions) {
+				const raycaster = new THREE.Raycaster(this.camera.position, direction.clone().normalize());
+				const intersects = raycaster.intersectObject(coll, true);
+		
+				if (intersects.length > 0 && intersects[0].distance < 10) {
+					this.camera.position.copy(this.previousCameraPositionTorch); 
+					return;
+				}
+			}
+		
+			// Save the current position as the previous position before updating it
+			this.previousCameraPositionTorch.copy(this.camera.position);
+		}
 	}
 
+	collideTempleThrone(coll) {
+		if (coll){
+			const directions = [
+				new THREE.Vector3(1, 0, 0), // Right
+				new THREE.Vector3(-1, 0, 0), // Left
+				new THREE.Vector3(0, 0, 1), // Forward
+				new THREE.Vector3(0, 0, -1) // Backward
+			];
+		
+			for (const direction of directions) {
+				const raycaster = new THREE.Raycaster(this.camera.position, direction.clone().normalize());
+				const intersects = raycaster.intersectObject(coll, true);
+		
+				if (intersects.length > 0 && intersects[0].distance < 10) {
+					this.camera.position.copy(this.previousCameraPositionThrone); 
+					return;
+				}
+			}
+		
+			// Save the current position as the previous position before updating it
+			this.previousCameraPositionThrone.copy(this.camera.position);
+		}
+	}
+
+	collideTempleRoman(coll) {
+		if (coll){
+			const directions = [
+				new THREE.Vector3(1, 0, 0), // Right
+				new THREE.Vector3(-1, 0, 0), // Left
+				new THREE.Vector3(0, 0, 1), // Forward
+				new THREE.Vector3(0, 0, -1) // Backward
+			];
+		
+			for (const direction of directions) {
+				const raycaster = new THREE.Raycaster(this.camera.position, direction.clone().normalize());
+				const intersects = raycaster.intersectObject(coll, true);
+		
+				if (intersects.length > 0 && intersects[0].distance < 10) {
+					this.camera.position.copy(this.previousCameraPositionRoman); 
+					return;
+				}
+			}
+		
+			// Save the current position as the previous position before updating it
+			this.previousCameraPositionRoman.copy(this.camera.position);
+		}
+	}
+
+	collideFrames() {
+	}
+	
 	animate() {
 		this.render();
 		this.stats.update();
 	}
 
-	render() {
-		this.controls.update(this.clock.getDelta());
+    render() {
+        const delta = this.clock.getDelta();
+		this.controls.update(delta);
+		this.sprite.lookAt(this.camera.position);
+		if (this.characterManager) {
+            this.characterManager.update(delta);
+        }
+		if (this.characterManagerSeat) {
+            this.characterManagerSeat.update(delta);
+        }
         this.collision();
-		this.collisionColumn();
-		this.collideWalls()
-
+		this.collideWalls();
+        this.collideFrames();
 		this.collideTemple(this.loadModel.temple);
 		this.collideTemple1(this.loadModel.temple1);
+		this.collideTempleTorch(this.loadModel.torch);
+		this.collideTempleThrone(this.loadModel.throne);
+		this.collideTempleRoman(this.loadModel.roman);
 		
         this.animatedText.update();
-        console.log(this.camera.position, this.camera.rotation)
-        //this.stars.update();
 		this.renderer.render(this.scene, this.camera);
 	}
 }

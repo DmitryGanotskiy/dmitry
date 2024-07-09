@@ -6,16 +6,33 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="3d/style.css">
         <style>
-            body {
-                background-color: #000000;
-                color: #ffffff;
-            }
-            a {
-                color: #a0a0a0;
-            }
+			#music{
+				z-index: -1000;
+				position:fixed;
+			}
+			#play {
+    z-index: 1000;
+    position: fixed;
+    width: 150px; /* Default width */
+    border-radius: 10%; 
+    background: rgba(255, 115, 0, 0.285); 
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 10px #ff8800;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: none;
+    left: 95%;
+	top: 90%;
+    transform: translateX(-95%);
+}
         </style>
 	</head>
 	<body>
+		<button id="play" onclick="playAudio()">Play Audio</button>
+		<audio id="music" controls loop>
+			<source src="sounds/music.mp3" type="audio/mpeg">
+		</audio>
 		
 		<div id="cursor"></div>
 
@@ -78,6 +95,17 @@
 			window.addEventListener('load', function() {
             	document.body.classList.add('loaded');
         	});
+
+			var isPlaying = false;
+			function playAudio() {
+				if (isPlaying) {
+					document.getElementById('music').pause();
+				} else {
+					document.getElementById('music').play();
+				}
+				
+				isPlaying = !isPlaying; 
+			}
 		</script>
 
 	</body>

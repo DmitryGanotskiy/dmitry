@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Contact Form</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .contact-form {
+            background: #ffffff00;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            color: aliceblue;
+            z-index: 999;
+        }
+        .contact-form h2 {
+            margin-top: 0;
+        }
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .contact-form button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .contact-form button:hover {
+            background-color: #218838;
+        }
+        #container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <div class="contact-form">
+        <h2>Contact Me</h2>
+        <form id="contactForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+            
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/",
+            "tween": "https://cdn.skypack.dev/@tweenjs/tween.js@18.6.4/dist/tween.umd.js",
+            "stats": "https://threejs.org/examples/jsm/libs/stats.module.js"
+          }
+        }
+    </script>
+    <script type="x-shader/x-vertex" id="vertexshader">
+
+        uniform float amplitude;
+
+        attribute vec3 customColor;
+        attribute vec3 displacement;
+
+        varying vec3 vNormal;
+        varying vec3 vColor;
+
+        void main() {
+
+            vNormal = normal;
+            vColor = customColor;
+
+            vec3 newPosition = position + normal * amplitude * displacement;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+
+        }
+
+    </script>
+    <script type="x-shader/x-fragment" id="fragmentshader">
+
+        varying vec3 vNormal;
+        varying vec3 vColor;
+
+        void main() {
+
+            const float ambient = 0.4;
+
+            vec3 light = vec3( 1.0 );
+            light = normalize( light );
+
+            float directional = max( dot( vNormal, light ), 0.0 );
+
+            gl_FragColor = vec4( ( directional + ambient ) * vColor, 1.0 );
+
+        }
+
+    </script>
+    <script type="module" src="2d/js/contact.js"></script>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            console.log('Form submitted!', { name, email, message });
+
+            alert('Thank you for your message! I will get back to you soon.');
+            // Optionally, add AJAX code here to send the form data to your server
+
+            // Reset the form
+            document.getElementById('contactForm').reset();
+        });
+    </script>
+</body>
+</html>

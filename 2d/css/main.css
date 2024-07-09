@@ -19,11 +19,11 @@ body:hover #cursor{
 	background-color: #201c21;
 }
 ::-webkit-scrollbar-thumb{
-	background: linear-gradient(transparent, #0051ff);
+	background: linear-gradient(transparent, #ff7b00);
 	border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover{
-	background: linear-gradient(transparent, #9500ff);
+	background: linear-gradient(transparent, #ff0000);
 }
 :root {
 	--index: calc(1vw + 1vh);
@@ -73,7 +73,7 @@ body {
 	bottom: 12vh;
 	line-height: .9;
 	transition: color 0.3s ease, text-shadow 0.3s ease;
-    text-shadow: 0 0 5px rgb(132, 0, 255);
+    text-shadow: 0 0 5px rgb(255, 153, 0);
 }
 .gallery {
 	display: flex;
@@ -108,7 +108,7 @@ body {
 	color: var(--color-header);
 	margin-bottom: 1.5rem;
 	transition: color 0.3s ease, text-shadow 0.3s ease;
-    text-shadow: 0 0 5px rgb(132, 0, 255);
+    text-shadow: 0 0 5px rgb(255, 102, 0);
 }
 .text-block__p {
 	line-height: 1.75;
@@ -122,7 +122,7 @@ body {
     transform: translateX(-50%);
     padding: 10px 20px;
     font-size: 1rem;
-    background-color: #8c00ff; /* You can change the background color */
+    background-color: #ff8000; /* You can change the background color */
     color: white; /* You can change the text color */
     border: none;
     border-radius: 4px;
@@ -138,16 +138,16 @@ body {
 
 .langs a {
     text-decoration: none;
-    color: #0051ff;
+    color: #ff7300;
     font-size: 2em;
     font-weight: bold;
     transition: color 0.3s ease, text-shadow 0.3s ease;
-    text-shadow: 0 0 50px rgb(12, 57, 222);
+    text-shadow: 0 0 50px rgb(255, 133, 4);
 }
 
 .langs a:hover {
-    color: #9500ff;
-    text-shadow: 0 0 50px rgba(187, 13, 235, 0.8); 
+    color: #ff0000;
+    text-shadow: 0 0 50px rgba(255, 162, 0, 0.8); 
 }
 #cursor {
     position: fixed;

@@ -138,20 +138,20 @@
 			// downscroll code
 			styleElement.innerHTML = `
 				::-webkit-scrollbar-thumb {
-					background: linear-gradient(transparent, #0051ff);
+					background: linear-gradient(transparent, #ff7b00);
 				}
 				::-webkit-scrollbar-thumb:hover {
-					background: linear-gradient(transparent, #9500ff);
+					background: linear-gradient(transparent, #ff0000);
 				}
 			`;
 		} else {
 			// upscroll code
 			styleElement.innerHTML = `
 				::-webkit-scrollbar-thumb {
-					background: linear-gradient(#0051ff, transparent);
+					background: linear-gradient(#ff7b00, transparent);
 				}
 				::-webkit-scrollbar-thumb:hover {
-					background: linear-gradient(#9500ff, transparent);
+					background: linear-gradient(#ff0000, transparent);
 				}
 			`;
 		}
@@ -167,7 +167,6 @@
 
 	//soft transition
 	window.transitionToPage = function(href) {
-			document.querySelector('body').style.opacity = 0
 			setTimeout(function() { 
 				window.location.href = href
 			}, 500)
