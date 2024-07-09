@@ -7,6 +7,11 @@ body {
     cursor: none;
 	opacity: 1;
 	transition: opacity 1s ease-in-out; 
+	/*background-image: url(../img/bg.jpg);*/
+	background-size: 50px;
+	color: #fafafa;
+	font-family: raleway-c;
+	overflow-x: hidden;
 }
 body.loaded {
     opacity: 1;
@@ -19,11 +24,11 @@ body:hover #cursor{
 	background-color: #201c21;
 }
 ::-webkit-scrollbar-thumb{
-	background: linear-gradient(transparent, #ff7b00);
+	background: linear-gradient(transparent, #cc00ff);
 	border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover{
-	background: linear-gradient(transparent, #ff0000);
+	background: linear-gradient(transparent, #0040ff);
 }
 :root {
 	--index: calc(1vw + 1vh);
@@ -46,12 +51,8 @@ h1, h2, h3, h4, h5, h6 {
 .content, .hero, .main-header, .gallery > * {
 	will-change: transform;
 }
-body {
-	background-image: url(../img/bg.jpg);
-	background-size: 50px;
-	color: #fafafa;
-	font-family: raleway-c;
-	overflow-x: hidden;
+#container{
+	position: fixed;
 }
 .hero {
 	width: calc(var(--index) * 36);
@@ -73,7 +74,7 @@ body {
 	bottom: 12vh;
 	line-height: .9;
 	transition: color 0.3s ease, text-shadow 0.3s ease;
-    text-shadow: 0 0 5px rgb(255, 153, 0);
+    text-shadow: 0 0 5px rgb(140, 0, 255);
 }
 .gallery {
 	display: flex;
@@ -108,25 +109,30 @@ body {
 	color: var(--color-header);
 	margin-bottom: 1.5rem;
 	transition: color 0.3s ease, text-shadow 0.3s ease;
-    text-shadow: 0 0 5px rgb(255, 102, 0);
+    text-shadow: 0 0 5px rgb(187, 0, 255);
 }
 .text-block__p {
 	line-height: 1.75;
 }
-.button3d {
+h3 {
     position: fixed;
-	width: 20%;
+	width: 5%;
 	height: 50px;
-    bottom: 200px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #ff8000; /* You can change the background color */
-    color: white; /* You can change the text color */
+    bottom: 250px;
+    left: 45%;
+    transform: translateX(-45%);
+    font-size: 3rem;
+    color: white;
+	text-transform: uppercase;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    text-decoration: none;
+	padding-bottom: 50px;
+}
+
+h3:hover {
+    text-decoration: none; /* Remove underline on hover */
 }
 .langs {
     position: fixed;
@@ -138,16 +144,16 @@ body {
 
 .langs a {
     text-decoration: none;
-    color: #ff7300;
+    color: #ffffff;
     font-size: 2em;
     font-weight: bold;
     transition: color 0.3s ease, text-shadow 0.3s ease;
-    text-shadow: 0 0 50px rgb(255, 133, 4);
+    text-shadow: 0 0 50px rgb(209, 4, 255);
 }
 
 .langs a:hover {
-    color: #ff0000;
-    text-shadow: 0 0 50px rgba(255, 162, 0, 0.8); 
+    color: #a43fae;
+    text-shadow: 0 0 50px rgba(51, 0, 255, 0.8); 
 }
 #cursor {
     position: fixed;

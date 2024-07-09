@@ -1,41 +1,41 @@
+// contact.js
+
 import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module.js";
-import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
-import { CSS3DRenderer } from 'https://threejs.org/examples/jsm/renderers/CSS3DRenderer.js';
-import TWEEN from "https://cdn.skypack.dev/@tweenjs/tween.js@18.6.4/dist/tween.umd.js";
-import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
-import Stats from 'three/addons/libs/stats.module.js';
-import { FirstPersonControls } from './FirstPersonControls.js';
-import { ImprovedNoise } from 'three/addons/math/ImprovedNoise.js';
 
-class TerrainScene {
-	constructor() {
-		this.worldWidth = 256;
-		this.worldDepth = 256;
-		this.clock = new THREE.Clock();
-        this.gravity = 9.8;
-        this.velocityY = 0;
-        this.objectRadius = 80;
-        this.centerPoint = new THREE.Vector3(81, 98, -800);
-		this.frameMeshes = [];
-		this.previousCameraPositionFrame = new THREE.Vector3();
-		this.previousCameraPosition = new THREE.Vector3();
-		this.previousCameraPosition1 = new THREE.Vector3();
-		this.previousCameraPositionTorch = new THREE.Vector3();
-		this.previousCameraPositionThrone = new THREE.Vector3();
-		this.previousCameraPositionRoman = new THREE.Vector3();
-        this.previousCameraPositionWalls = new THREE.Vector3()
-		this.characterManager = null;
-		this.characterManagerSeat = null;
+class ThreeJSScene {
+    constructor() {
+        this.scene = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
 
-		this.init();
-	}
+        this.targetX = 0;
+        this.targetY = 0;
+        this.mouseX = 0;
+        this.mouseY = 0;
 
-	init() {
-		this.container = document.getElementById('container');
-        const loader = new GLTFLoader()
+        this.earth = null;
+        this.moon = null;
+        this.moonOrbitRadius = 70; // Adjusted orbit radius for better visibility
+        this.moonOrbitSpeed = 0.001; // Adjusted orbit speed for slower animation
 
-		this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
-		this.scene = new THREE.Scene();
+        this.init();
+        this.setupListeners();
+        this.animate();
+
+        // Call sphere method to create the earth and moon with textures
+        this.sphere('earth', { x: -150, y: -130, z: 50 }, 50); // Earth at center
+        this.sphere('moon', { x: this.moonOrbitRadius, y: -120, z: 50 }, 5); // Moon initial position
+        this.createMoonOrbit();
+    }
+
+    init() {
+        this.camera.position.set(0, 0, 150); // Adjusted camera position
+        this.camera.lookAt(this.scene.position); // Camera looks at the scene center
+
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('container').appendChild(this.renderer.domElement);
+
+        const loader = new THREE.CubeTextureLoader();
         const texture = loader.load([
             '2d/img/posx.jpg',
             '2d/img/negx.jpg',
@@ -45,52 +45,73 @@ class TerrainScene {
             '2d/img/negz.jpg',
         ]);
         this.scene.background = texture;
+    }
 
+    setupListeners() {
+        document.addEventListener('mousemove', this.onDocumentMouseMove.bind(this));
+        window.addEventListener('resize', this.onWindowResize.bind(this));
+    }
 
-		this.renderer = new THREE.WebGLRenderer();
-		this.renderer.setPixelRatio(window.devicePixelRatio);
-		this.renderer.setSize(window.innerWidth, window.innerHeight);
-		this.renderer.setAnimationLoop(() => this.animate());
-		this.container.appendChild(this.renderer.domElement);
+    onDocumentMouseMove(event) {
+        this.mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        this.mouseY = (event.clientY / window.innerHeight) * 2 + 1;
 
-		this.controls = new FirstPersonControls(this.camera, this.renderer.domElement);
-		this.controls.movementSpeed = 50;
-		this.controls.lookSpeed = 0.1;
-        this.controls.enableDamping = true;
+        // Adjust sensitivity and scaling factor as needed
+        this.targetX = this.mouseX * 0.5; 
+        this.targetY = this.mouseY * 0.5; 
+    }
 
+    animate() {
+        requestAnimationFrame(this.animate.bind(this));
 
+        // Update camera rotation towards the mouse cursor direction
+        this.camera.rotation.x += (-this.targetY - this.camera.rotation.x) * 0.05;
+        this.camera.rotation.y += (-this.targetX - this.camera.rotation.y) * 0.05;
 
-		this.stats = new Stats();
-		this.container.appendChild(this.stats.dom);
+        if (this.moon) {
+            // Calculate moon's position in orbit around the earth
+            const time = Date.now() * this.moonOrbitSpeed;
+            this.moon.position.x = this.earth.position.x + Math.cos(time) * this.moonOrbitRadius;
+            this.moon.position.y = this.earth.position.y + Math.sin(time) * this.moonOrbitRadius;
+        }
 
+        this.renderer.render(this.scene, this.camera);
+    }
 
+    onWindowResize() {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+    }
 
-		window.addEventListener('resize', () => this.onWindowResize());
-	}
+    sphere(path, position, size) {
+        const geometry = new THREE.SphereGeometry(size, 32, 32);
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load(`2d/img/${path}.jpg`);
+        const material = new THREE.MeshBasicMaterial({ map: texture });
+        const sphere = new THREE.Mesh(geometry, material);
 
-	onWindowResize() {
-		this.camera.aspect = window.innerWidth / window.innerHeight;
-		this.camera.updateProjectionMatrix();
-		this.renderer.setSize(window.innerWidth, window.innerHeight);
-		this.controls.handleResize();
-	}
+        sphere.position.set(position.x, position.y, position.z);
+        this.scene.add(sphere);
 
+        if (path === 'earth') {
+            this.earth = sphere;
+            this.earth.rotation.z = Math.PI / 2;
+        } else if (path === 'moon') {
+            this.moon = sphere;
+        }
+    }
 
-	
-	animate() {
-		this.render();
-		this.stats.update();
-	}
+    createMoonOrbit() {
+        const orbitGeometry = new THREE.CircleGeometry(this.moonOrbitRadius, 64);
+        orbitGeometry.vertices.shift(); 
+        const orbitMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+        const orbit = new THREE.LineLoop(orbitGeometry, orbitMaterial);
 
-    render() {
-        const delta = this.clock.getDelta();
-		this.controls.update(delta);
-
-		
-		this.renderer.render(this.scene, this.camera);
-	}
+        orbit.rotation.x = Math.PI / 2; // Rotate the orbit to be in the xy-plane
+        this.scene.add(orbit);
+    }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-	const terrainScene = new TerrainScene();
-});
+// Initialize the scene
+const app = new ThreeJSScene();

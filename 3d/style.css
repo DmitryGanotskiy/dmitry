@@ -7,14 +7,12 @@ body {
 	line-height: 24px;
 	overscroll-behavior: none;
 	opacity: 0;
+	overflow: hidden;
 	transition: opacity 3s ease-in-out; 
 
 }
 body.loaded {
     opacity: 1;
-}
-body:hover #cursor{
-	opacity: 1;
 }
 a {
 	color: #a0a0a0;
@@ -79,16 +77,16 @@ a, button, input, select {
 	background: rgba(0,0,0,0.7);
 }
 
-	#overlay button {
-		background: transparent;
-		border: 0;
-		border: 1px solid rgb(255, 255, 255);
-		border-radius: 4px;
-		color: #ffffff;
-		padding: 12px 18px;
-		text-transform: uppercase;
-		cursor: pointer;
-	}
+#overlay button {
+	background: transparent;
+	border: 0;
+	border: 1px solid rgb(255, 255, 255);
+	border-radius: 4px;
+	color: #ffffff;
+	padding: 12px 18px;
+	text-transform: uppercase;
+	cursor: pointer;
+}
 
 #notSupported {
 	width: 50%;
@@ -97,21 +95,6 @@ a, button, input, select {
 	margin-top: 20px;
 	padding: 10px;
 }
-
-#cursor {
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(2px);
-    box-shadow: 0 0 5px #ffd6cc, 0 0 15px #c3c2c2, 0 0 30px #dbdbdb, 0 0 60px #ffffff;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.5s, background 0.5s;
-    z-index: 5000; /* Ensure the cursor is above other elements */
-  }
 
 #music{
 	z-index: -1000;

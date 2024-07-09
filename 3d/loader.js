@@ -16,7 +16,8 @@ class ObjectManager {
         this.torch = null;
         this.throne = null;
         this.roman = null;
-        this.victor = null;
+        this.david = null;
+        this.diane = null;
         this.collision = [];
     }
 
@@ -87,12 +88,16 @@ class ObjectManager {
                     });
                 
                     this.roman = object;
-                }
-                else if (filename === "victor.glb") {
+                } else if (filename === "diane.glb") {
+                    object.scale.set(3, 3, 3);
+                    object.position.set(position.x, position.y, position.z); 
+                    object.rotation.y = rotation;
+                    this.diane = object;
+                } else if (filename === "david.glb") {
                     object.scale.set(100, 100, 100);
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;
-                    this.victor = object;
+                    this.david = object;
                 }
                 
     
@@ -110,9 +115,9 @@ class ObjectManager {
 
     loadImages(img) {
         const textureLoader = new THREE.TextureLoader();
-        textureLoader.load(`img/${img.path}.jpg`, (texture) => {
-            const geometry = new THREE.PlaneGeometry(2.3, 3.1);
-            const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+        textureLoader.load(`./img/${img.path}`, (texture) => {
+            const geometry = new THREE.PlaneGeometry(24, 40);
+            const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide, transparent: true });
             const plane = new THREE.Mesh(geometry, material);
             plane.position.set(img.position.x, img.position.y, img.position.z);
             plane.rotation.y = img.rotation;
