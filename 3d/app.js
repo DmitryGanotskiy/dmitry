@@ -288,7 +288,7 @@ class TerrainScene {
 	
 				if (intersects.length > 0 && intersects[0].distance < 10) {
 					this.camera.position.copy(this.previousCameraPosition);
-					this.mobile.ifCollision = true;
+					if(this.mobile)this.mobile.ifCollision = true;
 					return;
 				}
 			}
@@ -301,7 +301,8 @@ class TerrainScene {
 	
 			if (distance < 40) {
 				this.isMoving = true;
-				this.mobile.ifCollision = true;
+				
+				if(this.mobile) this.mobile.ifCollision = true;
 				this.controls.enabled = false;
 				const newPosition = new THREE.Vector3(standModel.position.x + 4, standModel.position.y + 35, standModel.position.z + 1);
 				const lookAtTarget = new THREE.Vector3(standModel.position.x, standModel.position.y + 26, standModel.position.z - 0.3);
@@ -326,7 +327,7 @@ class TerrainScene {
 	moveCameraBack() {
 		if (this.isMoving) {						
 			this.controls.enabled = true;
-			this.mobile.ifCollision = false;
+			if(this.mobile)this.mobile.ifCollision = false;
 			this.book.style.zIndex = "-10";
 			this.book.style.opacity = "0";
 			const backDistance = 50;
@@ -362,7 +363,7 @@ class TerrainScene {
             this.characterManagerSeat.update(delta);
         }
 
-		this.mobile.ifCollision = false;
+		if(this.mobile)this.mobile.ifCollision = false;
         this.collision();
 		this.collideWithModel(this.wall);
 		this.collideWithModel(this.loadModel.temple);
