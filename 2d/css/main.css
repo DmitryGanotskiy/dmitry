@@ -114,26 +114,22 @@ h1, h2, h3, h4, h5, h6 {
 .text-block__p {
 	line-height: 1.75;
 }
-h3 {
+.contact-link {
     position: fixed;
 	width: 5%;
 	height: 50px;
-    bottom: 250px;
-    left: 45%;
-    transform: translateX(-45%);
+	left: 7%;
     font-size: 3rem;
     color: white;
 	text-transform: uppercase;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-	padding-bottom: 50px;
+	margin-top: 50px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    text-shadow: 0 0 50px rgb(209, 4, 255);
+	text-decoration: none;
 }
 
-h3:hover {
-    text-decoration: none; /* Remove underline on hover */
-}
 .langs {
     position: fixed;
     top: 40px;
@@ -168,4 +164,17 @@ h3:hover {
     opacity: 0;
     transition: opacity 0.5s, background 0.5s;
     z-index: 5000; /* Ensure the cursor is above other elements */
+  }
+
+  @media screen and (max-width:1100px) {
+	.gallery {
+		flex-direction: column;
+		padding: 5%;
+	}
+	.main-title {
+		font-size: calc(var(--index) * 5);
+	}
+	.hero {
+		width: calc(var(--index) * 26);
+	}
   }

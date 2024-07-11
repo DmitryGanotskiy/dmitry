@@ -23,8 +23,8 @@ class ThreeJSScene {
         this.animate();
 
         // Call sphere method to create the earth and moon with textures
-        this.sphere('earth', { x: -150, y: -130, z: 50 }, 50); // Earth at center
-        this.sphere('moon', { x: this.moonOrbitRadius, y: -120, z: 50 }, 5); // Moon initial position
+        this.sphere('earth', { x: -150, y: -160, z: 50 }, 50); // Earth at center
+        this.sphere('moon', { x: this.moonOrbitRadius, y: -160, z: 50 }, 5); // Moon initial position
         this.createMoonOrbit();
     }
 

@@ -18,6 +18,8 @@ class ObjectManager {
         this.roman = null;
         this.david = null;
         this.diane = null;
+        this.stand = null;
+        this.shelf = null;
         this.collision = [];
     }
 
@@ -98,6 +100,16 @@ class ObjectManager {
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;
                     this.david = object;
+                } else if (filename === "stand.glb") {
+                    object.scale.set(20, 20, 20);
+                    object.position.set(position.x, position.y, position.z); 
+                    object.rotation.y = rotation;
+                    this.stand = object;
+                } else if (filename === "shelf.glb") {
+                    object.scale.set(0.1, 0.1, 0.1);
+                    object.position.set(position.x, position.y, position.z); 
+                    object.rotation.y = rotation;
+                    this.shelf = object;
                 }
                 
     

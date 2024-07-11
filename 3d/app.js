@@ -3,13 +3,13 @@ import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/js
 import { CSS3DRenderer } from 'https://threejs.org/examples/jsm/renderers/CSS3DRenderer.js';
 import TWEEN from "https://cdn.skypack.dev/@tweenjs/tween.js@18.6.4/dist/tween.umd.js";
 import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
-import Stats from 'three/addons/libs/stats.module.js';
 import { FirstPersonControls } from './FirstPersonControls.js';
 import { ImprovedNoise } from 'three/addons/math/ImprovedNoise.js';
 import { Stars } from './stars.js';
 import {AnimatedText} from './text.js';
 import {ObjectManager} from './loader.js';
 import {CharacterManager} from './character.js';
+import {MobileControls} from './mobile.js';
 
 class TerrainScene {
 	constructor() {
@@ -30,6 +30,9 @@ class TerrainScene {
         this.previousCameraPositionDavid = new THREE.Vector3();
 		this.characterManager = null;
 		this.characterManagerSeat = null;
+		this.isMoving = false;
+		this.isShowing = false;
+		this.book = document.getElementById('canvas');
         this.paths = [
             { name: 'hugo', path: 'art/hugo.jpg', position: { x: 230, y: 125, z: -1180 }, rotation: Math.PI },
             { name: 'napoleon', path: 'art/napoleon.jpg', position: { x: 320, y: 125, z: -1081 }, rotation: Math.PI /2 },
@@ -49,11 +52,16 @@ class TerrainScene {
 			{ name: '8', path: 'me/8.png', position: { x: 290, y: 80, z: -740 }, rotation: Math.PI *1.5 },
 			{ name: '9', path: 'me/9.png', position: { x: 290, y: 80, z: -705 }, rotation: Math.PI *1.5 },
 			{ name: '10', path: 'me/10.png', position: { x: 290, y: 80, z: -670 }, rotation: Math.PI *1.5 },
+			{ name: 'novel', path: 'me/novel.jpg', position: { x: -290, y: 110, z: -884 }, rotation: Math.PI/1.1 },
+			{ name: 'article', path: 'me/article.jpg', position: { x: -245, y: 110, z: -1050 }, rotation: Math.PI/1.1 },
         ];
 
 		this.init();
         this.loadModelsInCircle();
 		this.loadResources();
+		document.getElementById('back').addEventListener('click', this.moveCameraBack.bind(this));
+		this.mobile = new MobileControls(this.scene, this.camera, this.renderer, this.controls, this.mesh, this.clock)
+	
 	}
 
 	init() {
@@ -100,10 +108,6 @@ class TerrainScene {
 
 		this.walls()
 
-
-		this.stats = new Stats();
-		this.container.appendChild(this.stats.dom);
-
         this.animatedText = new AnimatedText(this.scene, new THREE.Vector3(70, 110, -620));
 
         this.stars = new Stars(this.scene, 50);
@@ -143,6 +147,10 @@ class TerrainScene {
 		this.loadModel.loadModel('./img/roman.glb', { x: -130, y: 57, z: -920 }, Math.PI/2.5);
 		this.loadModel.loadModel('./img/diane.glb', { x: 240, y: 57, z: -1120 }, Math.PI);
 		this.loadModel.loadModel('./img/david.glb', { x: 270, y: 57, z: -1080 }, Math.PI*1.5);
+		this.loadModel.loadModel('./img/stand.glb', { x: -284, y: 75, z: -974 }, Math.PI/2.5);
+		this.loadModel.loadModel('./img/shelf.glb', { x: -372, y: 73, z: -935 }, Math.PI/2.5);
+		this.loadModel.loadModel('./img/shelf.glb', { x: -350, y: 73, z: -995 }, Math.PI/2.5);
+		this.loadModel.loadModel('./img/shelf.glb', { x: -330, y: 73, z: -1050 }, Math.PI/2.5);
 
 		const imageLoadPromises = this.paths.map(path => this.loadModel.loadImages(path));
     }
@@ -150,7 +158,7 @@ class TerrainScene {
 	loadResources() {
 		try {
 			this.characterManager = new CharacterManager(this.scene, this.camera, "knight", "talk", new THREE.Vector3(250, 57, -1100), Math.PI*1.7, new THREE.Vector3(0.15,0.15,0.15));
-			this.characterManagerSeat = new CharacterManager(this.scene, this.camera, "knight", "seat", new THREE.Vector3(-107, 76, -677), Math.PI/1.4, new THREE.Vector3(0.3,0.3,0.3));
+			this.characterManagerSeat = new CharacterManager(this.scene, this.camera, "demon", "seat", new THREE.Vector3(-107, 76, -677), Math.PI/1.4, new THREE.Vector3(0.3,0.3,0.3));
 			console.log("Resources loaded successfully");
 		} catch (error) {
 			console.error("Error loading resources:", error);
@@ -255,9 +263,9 @@ class TerrainScene {
 			const distance = intersects[0].distance;
 			const collisionPoint = raycaster.ray.origin.clone().add(raycaster.ray.direction.clone().multiplyScalar(distance));
 			this.camera.position.y = collisionPoint.y + 30;
-            
 			this.velocityY = 0;
-		} else {
+		}
+		else {
 			this.camera.position.add(deltaMove);
 		}
     }
@@ -276,18 +284,68 @@ class TerrainScene {
 				const intersects = raycaster.intersectObject(model, true);
 	
 				if (intersects.length > 0 && intersects[0].distance < 10) {
-					// Reset the camera position to the stored previous position
 					this.camera.position.copy(this.previousCameraPosition);
+					this.mobile.ifCollision = true;
 					return;
 				}
 			}
+		}
+	}
+	standMove() {
+		if (this.loadModel.stand && !this.isMoving) {
+			const standModel = this.loadModel.stand;
+			const distance = this.camera.position.distanceTo(standModel.position);
+	
+			if (distance < 40) {
+				this.isMoving = true;
+				this.mobile.ifCollision = true;
+				this.controls.enabled = false;
+				const newPosition = new THREE.Vector3(standModel.position.x + 4, standModel.position.y + 35, standModel.position.z + 1);
+				const lookAtTarget = new THREE.Vector3(standModel.position.x, standModel.position.y + 26, standModel.position.z - 0.3);
+	
+				TWEEN.removeAll();
+	
+				new TWEEN.Tween(this.camera.position)
+					.to(newPosition, 2000)
+					.easing(TWEEN.Easing.Quadratic.Out)
+					.onUpdate(() => {
+						this.camera.lookAt(lookAtTarget);
+					})
+					.onComplete(() => {
+						this.book.style.zIndex = "100";
+						this.book.style.opacity = "1";
+					})
+					.start();
+			}
+		}
+	}
+
+	moveCameraBack() {
+		if (this.isMoving) {						
+			this.controls.enabled = true;
+			this.mobile.ifCollision = false;
+			this.book.style.zIndex = "-10";
+			this.book.style.opacity = "0";
+			const backDistance = 50;
+			const backwardVector = this.camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(-backDistance);
+			const newPosition = this.camera.position.clone().add(backwardVector);
+
+			TWEEN.removeAll();
+
+			new TWEEN.Tween(this.camera.position)
+				.to({ x: -200, y: 75, z: -974 }, 500)
+				.easing(TWEEN.Easing.Quadratic.Out)
+				.onUpdate(() => {
+				}).onComplete(() => {	
+					this.isMoving = false;	
+				})
+				.start();
 		}
 	}
 	
 	animate() {
 		this.previousCameraPosition.copy(this.camera.position);
 		this.render();
-		this.stats.update();
 	}
 
     render() {
@@ -300,6 +358,8 @@ class TerrainScene {
 		if (this.characterManagerSeat) {
             this.characterManagerSeat.update(delta);
         }
+
+		this.mobile.ifCollision = false;
         this.collision();
 		this.collideWithModel(this.wall);
 		this.collideWithModel(this.loadModel.temple);
@@ -309,9 +369,14 @@ class TerrainScene {
 		this.collideWithModel(this.loadModel.roman);
 		this.collideWithModel(this.loadModel.diane);
 		this.collideWithModel(this.loadModel.david);
+		this.collideWithModel(this.loadModel.stand);
+		this.collideWithModel(this.loadModel.shelf);
+
+		this.standMove()
 		
 		//console.log(this.camera.position)
         this.animatedText.update();
+		TWEEN.update();
 		this.renderer.render(this.scene, this.camera);
 	}
 }

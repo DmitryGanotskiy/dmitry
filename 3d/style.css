@@ -1,4 +1,5 @@
 body {
+    cursor: none;
 	margin: 0;
 	background-color: #000000;
     color: #ffffff;
@@ -9,10 +10,13 @@ body {
 	opacity: 0;
 	overflow: hidden;
 	transition: opacity 3s ease-in-out; 
-
+	z-index: 10;
 }
 body.loaded {
     opacity: 1;
+}
+body:hover #cursor{
+	opacity: 1;
 }
 a {
 	color: #a0a0a0;
@@ -26,21 +30,6 @@ a:hover {
 button {
 	cursor: pointer;
 	text-transform: uppercase;
-}
-
-#info {
-	position: absolute;
-	top: 0px;
-	width: 100%;
-	padding: 10px;
-	box-sizing: border-box;
-	text-align: center;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	pointer-events: none;
-	z-index: 1; /* TODO Solve this in HTML */
 }
 
 a, button, input, select {
@@ -88,19 +77,37 @@ a, button, input, select {
 	cursor: pointer;
 }
 
-#notSupported {
-	width: 50%;
-	margin: auto;
-	background-color: #f00;
-	margin-top: 20px;
-	padding: 10px;
-}
-
 #music{
 	z-index: -1000;
 	position:fixed;
 }
-#play{
-	z-index: 1000;
-	position:fixed;
+
+#cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(2px);
+    box-shadow: 0 0 5px #ffd6cc, 0 0 15px #c3c2c2, 0 0 30px #dbdbdb, 0 0 60px #ffffff;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s, background 0.5s;
+    z-index: 5000; /* Ensure the cursor is above other elements */
+  }
+
+#canvas {
+	opacity: 0;
+    position: absolute; 
+	left: 50%;
+	transform: translateX(-50%);
+    z-index: -1;
+	bottom: 0%;
+}
+
+@media screen and (max-width:1100px) {
+	#canvas { 
+		bottom: 30%;
+    }
 }
