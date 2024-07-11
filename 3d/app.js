@@ -60,7 +60,10 @@ class TerrainScene {
         this.loadModelsInCircle();
 		this.loadResources();
 		document.getElementById('back').addEventListener('click', this.moveCameraBack.bind(this));
-		this.mobile = new MobileControls(this.scene, this.camera, this.renderer, this.controls, this.mesh, this.clock)
+		
+		if (window.innerWidth < 1000) {
+			this.mobile = new MobileControls(this.scene, this.camera, this.renderer, this.controls, this.mesh, this.clock)
+		}
 	
 	}
 
@@ -371,7 +374,7 @@ class TerrainScene {
 		this.collideWithModel(this.loadModel.david);
 		this.collideWithModel(this.loadModel.stand);
 		this.collideWithModel(this.loadModel.shelf);
-
+ 
 		this.standMove()
 		
 		//console.log(this.camera.position)
