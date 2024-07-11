@@ -310,7 +310,7 @@ class TerrainScene {
 		this.collideWithModel(this.loadModel.diane);
 		this.collideWithModel(this.loadModel.david);
 		
-		console.log(this.camera.position)
+		//console.log(this.camera.position)
         this.animatedText.update();
 		this.renderer.render(this.scene, this.camera);
 	}
