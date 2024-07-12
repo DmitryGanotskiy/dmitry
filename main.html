@@ -53,9 +53,11 @@
 			<source src="sounds/music.mp3" type="audio/mpeg">
 		</audio>
 
-		<div id="outer-circle">
-			<div id="inner-circle"></div>
-		</div>
+		<button id="home" onclick="window.location.href = 'index.html'">Home &#127968;</button>
+
+		<button class="arrow left" onclick="prevImage()">&#9664;</button>
+		<button class="arrow right" onclick="nextImage()">&#9654;</button>
+		<div id="carousel"></div>
 
 		<div id="container" style="z-index: 10;"></div>
 
@@ -68,8 +70,8 @@
 					<div class="hard p24"></div>
 				</div>
 			</div>
-			<button id="back" style="margin-left: 49%;">Return &#8617;</button>
 		</div>
+		<button id="back">Return &#8617;</button>
 
         <script type="importmap">
             {
@@ -171,6 +173,45 @@
 				});
 			}
 
+			const carousel = document.getElementById('carousel');
+			for (let i = 1; i <= 21; i++) {
+				const imgDiv = document.createElement('div');
+				imgDiv.className = 'carousel-image';
+				imgDiv.innerHTML = `<img src="turnjs4/docs/files/pages/${i}.png" alt="Image ${i}">`;
+				carousel.appendChild(imgDiv);
+			}
+
+			let currentImageIndex = 0;
+			const images = document.querySelectorAll('.carousel-image');
+			images[currentImageIndex].style.display = 'block';
+
+			function showImage(index) {
+				images[currentImageIndex].style.display = 'none';
+				currentImageIndex = (index + images.length) % images.length;
+				images[currentImageIndex].style.display = 'block';
+			}
+
+			function nextImage() {
+				showImage(currentImageIndex + 1);
+			}
+
+			function prevImage() {
+				showImage(currentImageIndex - 1);
+			}
+
+			if (window.innerWidth > 1000) {
+				var newDiv = document.createElement("div");
+				newDiv.id = "cursor";
+				document.body.appendChild(newDiv);
+			}
+
+			if(document.getElementById("cursor")){
+				let cursor = document.getElementById("cursor");
+				document.addEventListener('mousemove', (e)=>{
+					cursor.style.left = e.clientX + "px";
+					cursor.style.top = e.clientY + "px";
+				});
+			}
 		</script>
 
 		<script type="module" src="3d/app.js"></script>

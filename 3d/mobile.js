@@ -98,10 +98,11 @@ class MobileControls {
     }
 
     moveForward() {
-        const moveDistance = 25;
-        const forwardVector = this.camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(moveDistance);
+        if(!this.ifCollision){
+            const moveDistance = 25;
+            const forwardVector = this.camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(moveDistance);
 
-        this.moveAnimation = new TWEEN.Tween(this.camera.position)
+            this.moveAnimation = new TWEEN.Tween(this.camera.position)
             .to({
                 x: this.camera.position.x + forwardVector.x,
                 y: this.camera.position.y + forwardVector.y,
@@ -119,6 +120,7 @@ class MobileControls {
                 }
             })
             .start();
+        }
     }
 
     moveBackward() {

@@ -32,6 +32,7 @@ class TerrainScene {
 		this.characterManagerSeat = null;
 		this.isMoving = false;
 		this.isShowing = false;
+		this.ifMobile = window.innerWidth < 1000
 		this.book = document.getElementById('canvas');
         this.paths = [
             { name: 'hugo', path: 'art/hugo.jpg', position: { x: 230, y: 125, z: -1180 }, rotation: Math.PI },
@@ -61,7 +62,7 @@ class TerrainScene {
 		this.loadResources();
 		document.getElementById('back').addEventListener('click', this.moveCameraBack.bind(this));
 		
-		if (window.innerWidth < 1000) {
+		if (this.ifMobile) {
 			this.mobile = new MobileControls(this.scene, this.camera, this.renderer, this.controls, this.mesh, this.clock)
 		}
 	
@@ -294,6 +295,24 @@ class TerrainScene {
 			}
 		}
 	}
+
+	appear(symbol, opacity){
+		document.getElementById("back").style.zIndex = `${symbol}`;
+		if(!this.ifMobile){
+			this.book.style.zIndex = `${symbol}`;
+			this.book.style.opacity = `${opacity}`;
+		} else if(this.ifMobile){
+			let carouselImages = document.querySelectorAll('.carousel-image');
+			for (let i = 0; i < carouselImages.length; i++) carouselImages[i].style.zIndex = `${symbol}`;
+
+			let arrows = document.querySelectorAll('.arrow');
+			for (let i = 0; i < arrows.length; i++) arrows[i].style.zIndex = `${symbol}`;
+
+			let imgs = document.querySelectorAll('.mobile-image');
+			for (let i = 0; i < imgs.length; i++) imgs[i].style.zIndex = `${symbol * -1}`;
+		}
+	}
+
 	standMove() {
 		if (this.loadModel.stand && !this.isMoving) {
 			const standModel = this.loadModel.stand;
@@ -316,8 +335,7 @@ class TerrainScene {
 						this.camera.lookAt(lookAtTarget);
 					})
 					.onComplete(() => {
-						this.book.style.zIndex = "100";
-						this.book.style.opacity = "1";
+						this.appear(100, 1);
 					})
 					.start();
 			}
@@ -326,8 +344,10 @@ class TerrainScene {
 
 	moveCameraBack() {
 		if (this.isMoving) {						
-			this.controls.enabled = true;
+			if(!this.ifMobile)this.controls.enabled = true;
 			if(this.mobile)this.mobile.ifCollision = false;
+			this.appear(-100, 0);
+
 			this.book.style.zIndex = "-10";
 			this.book.style.opacity = "0";
 			const backDistance = 50;
@@ -341,7 +361,7 @@ class TerrainScene {
 				.easing(TWEEN.Easing.Quadratic.Out)
 				.onUpdate(() => {
 				}).onComplete(() => {	
-					this.isMoving = false;	
+					this.isMoving = false;
 				})
 				.start();
 		}
