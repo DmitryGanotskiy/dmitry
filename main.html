@@ -163,9 +163,7 @@
 				var newDiv = document.createElement("div");
 				newDiv.id = "cursor";
 				document.body.appendChild(newDiv);
-			}
-
-			if(document.getElementById("cursor")){
+				
 				let cursor = document.getElementById("cursor");
 				document.addEventListener('mousemove', (e)=>{
 					cursor.style.left = e.clientX + "px";

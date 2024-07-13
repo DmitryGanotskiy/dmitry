@@ -344,28 +344,42 @@ class TerrainScene {
 
 	moveCameraBack() {
 		if (this.isMoving) {						
-			if(!this.ifMobile)this.controls.enabled = true;
-			if(this.mobile)this.mobile.ifCollision = false;
+			if (!this.ifMobile) this.controls.enabled = true;
+			if (this.mobile) this.mobile.ifCollision = false;
 			this.appear(-100, 0);
-
+	
 			this.book.style.zIndex = "-10";
 			this.book.style.opacity = "0";
+	
 			const backDistance = 50;
 			const backwardVector = this.camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(-backDistance);
 			const newPosition = this.camera.position.clone().add(backwardVector);
-
+	
 			TWEEN.removeAll();
-
+	
 			new TWEEN.Tween(this.camera.position)
 				.to({ x: -200, y: 75, z: -974 }, 500)
 				.easing(TWEEN.Easing.Quadratic.Out)
 				.onUpdate(() => {
-				}).onComplete(() => {	
+					// Update camera orientation to look at the center (0, 0, 0)
+					this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+					this.camera.updateProjectionMatrix();
+				})
+				.onComplete(() => {
 					this.isMoving = false;
+					// Ensure the camera is correctly oriented towards the center
+					this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+					this.camera.updateProjectionMatrix();
+					// Reset any mobile control variables that might interfere
+					if (this.mobile) {
+						this.mobile.stopMoving();
+						this.mobile.stopTurning();
+					}
 				})
 				.start();
 		}
 	}
+	
 	
 	animate() {
 		this.previousCameraPosition.copy(this.camera.position);
