@@ -9,7 +9,6 @@ class ObjectManager {
         this.door = null;
         this.road = null;
         this.column = null;
-        this.statue = null;
         this.postament = null;
         this.temple = null;
         this.temple1 = null;
@@ -32,47 +31,28 @@ class ObjectManager {
     
                 const filename = path.split('/').pop();
     
-                if (filename === "frame.glb") {
-                    object.scale.set(0.15, 0.15, 0.15);
-                    object.position.set(position.x, position.y, position.z); 
-                    object.rotation.y = rotation;
-                    this.frame = object;
-                } else if (filename === "door.glb") {
-                    object.scale.set(13, 13, 13);
-                    object.position.set(position.x, position.y, position.z); 
-                    object.rotation.y = rotation;
-                    this.door = object;
-                } else if (filename === "column.glb") {
-                    object.scale.set(0.5, 0.5, 0.5);
-                    object.position.set(position.x, position.y, position.z); 
-                    object.rotation.y = rotation;
-                    this.column = object;
-                } else if (filename === "statue.glb") {
-                    object.scale.set(80,80,80);
-                    object.position.set(position.x, position.y, position.z); 
-                    object.rotation.y = rotation;
-                    this.statue = object;
-                } else if (filename === "postament.glb") {
-                    object.scale.set(10, 10, 10);
+                if (filename === "postament.glb") {
+                    object.scale.set(25, 25, 25);
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;
                     this.postament = object;
-                } else if (filename === "temple.glb") {
+                } else if (filename === "scene.gltf") {
                     object.scale.set(8, 8, 8);
+                    console.log("FIIIIIIIIIIIIILE",filename)
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;
                     this.temple = object;
-                } else if (filename === "temple1.glb") {
+                } else if (filename === "scene1.gltf") {
                     object.scale.set(15, 15, 15);
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;
                     this.temple1 = object;
-                } else if (filename === "torch.glb") {
+                } else if (filename === "torch.gltf") {
                     object.scale.set(0.15, 0.15, 0.15);
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;
                     this.torch = object;
-                } else if (filename === "throne.glb") {
+                } else if (filename === "throne.gltf") {
                     object.scale.set(0.3, 0.3, 0.3);
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;
@@ -105,7 +85,7 @@ class ObjectManager {
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;
                     this.stand = object;
-                } else if (filename === "shelf.glb") {
+                } else if (filename === "shelf.gltf") {
                     object.scale.set(0.1, 0.1, 0.1);
                     object.position.set(position.x, position.y, position.z); 
                     object.rotation.y = rotation;

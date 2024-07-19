@@ -67,39 +67,41 @@ class CharacterManager {
     loadModelAndAnimations() {
         const loader = new FBXLoader();
 
-        loader.load(`./hero/${this.path}.fbx`, (object) => {
-            object.scale.set(this.scale.x, this.scale.y, this.scale.z);
-            object.position.set(this.position.x, this.position.y, this.position.z);
-            object.rotation.y = this.rotation;
-            this.scene.add(object);
-            this.model = object;  // Store the model object
+        if(this.path === "knight"){
+            loader.load(`./hero/${this.path}.fbx`, (object) => {
+                object.scale.set(this.scale.x, this.scale.y, this.scale.z);
+                object.position.set(this.position.x, this.position.y, this.position.z);
+                object.rotation.y = this.rotation;
+                this.scene.add(object);
+                this.model = object;  // Store the model object
 
-            const mixer = new THREE.AnimationMixer(object);
-            this.mixers.push(mixer);
-            this.currentMixer = mixer;
+                const mixer = new THREE.AnimationMixer(object);
+                this.mixers.push(mixer);
+                this.currentMixer = mixer;
 
-            const animLoader = new FBXLoader();
+                const animLoader = new FBXLoader();
 
-            animLoader.load(`./hero/${this.initialAnimation}.fbx`, (anim) => {
-                const action = mixer.clipAction(anim.animations[0]);
-                action.setLoop(THREE.LoopRepeat);
-                this.animations[this.initialAnimation] = action;
-                action.play();
-                this.currentAction = action;
+                animLoader.load(`./hero/${this.initialAnimation}.fbx`, (anim) => {
+                    const action = mixer.clipAction(anim.animations[0]);
+                    action.setLoop(THREE.LoopRepeat);
+                    this.animations[this.initialAnimation] = action;
+                    action.play();
+                    this.currentAction = action;
+                }, undefined, (error) => {
+                    console.error('An error occurred while loading the animation:', error);
+                });
+
             }, undefined, (error) => {
-                console.error('An error occurred while loading the animation:', error);
+                console.error('An error occurred while loading the model:', error);
             });
-
-        }, undefined, (error) => {
-            console.error('An error occurred while loading the model:', error);
-        });
+        }
     }
 
     collisionCamera() {
         const distance = this.camera.position.distanceTo(this.position);
         const withinDistance = distance < 150;
 
-        if (this.path === 'knight' && this.currentAction) {
+        if (this.path === 'demon') {
             if (withinDistance) {
                 if (!this.audioManager.audioPlayed && !this.audioManager.audioPaused) {
                     this.audioManager.subtitles = this.subtitlesart
@@ -113,7 +115,7 @@ class CharacterManager {
                 this.audioManager.pauseAudio();
                 this.audioManager.clearSubtitles();
             }
-        } else if (this.path === 'demon' && this.currentAction) {
+        } else if (this.path === 'knight' && this.currentAction) {
             if (withinDistance) {
                 if (!this.audioManager.audioPlayed && !this.audioManager.audioPaused) {
                     this.audioManager.subtitles = this.subtitlesabout

@@ -54,6 +54,7 @@ class MobileControls {
     }
 
     startMovingForward() {
+        console.log("Turning right");
         if (!this.isMovingForward && !this.ifCollision) {
             this.isMovingForward = true;
             this.moveForward();
@@ -69,6 +70,7 @@ class MobileControls {
     }
 
     startMovingBackward() {
+        console.log("Turning right");
         if (!this.isMovingBackward) {
             this.isMovingBackward = true;
             this.moveBackward();
@@ -76,6 +78,7 @@ class MobileControls {
     }
 
     startTurningLeft() {
+        console.log("Turning right");
         if (!this.isTurningLeft) {
             this.isTurningLeft = true;
             this.turnLeft();
@@ -83,6 +86,7 @@ class MobileControls {
     }
 
     startTurningRight() {
+        console.log("Turning right");
         if (!this.isTurningRight) {
             this.isTurningRight = true;
             this.turnRight();
