@@ -1,0 +1,11 @@
+Model Information:
+* title:	Column Torch
+* source:	https://sketchfab.com/3d-models/column-torch-bd3406d76f3e4be79a32122b1899b151
+* author:	Mavriarch (https://sketchfab.com/Mavriarch)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Column Torch" (https://sketchfab.com/3d-models/column-torch-bd3406d76f3e4be79a32122b1899b151) by Mavriarch (https://sketchfab.com/Mavriarch) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

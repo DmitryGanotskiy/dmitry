@@ -1,0 +1,11 @@
+Model Information:
+* title:	Escaleras espirales de marmol
+* source:	https://sketchfab.com/3d-models/escaleras-espirales-de-marmol-fd578ea610a047b08ee2da8785a3a358
+* author:	roquet (https://sketchfab.com/roqqq)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Escaleras espirales de marmol" (https://sketchfab.com/3d-models/escaleras-espirales-de-marmol-fd578ea610a047b08ee2da8785a3a358) by roquet (https://sketchfab.com/roqqq) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	History: Kremlin
+* source:	https://sketchfab.com/3d-models/history-kremlin-c6282a7e9bf64987b0f129a9d008df9b
+* author:	illarionov.school (https://sketchfab.com/itlaborykt)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "History: Kremlin" (https://sketchfab.com/3d-models/history-kremlin-c6282a7e9bf64987b0f129a9d008df9b) by illarionov.school (https://sketchfab.com/itlaborykt) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

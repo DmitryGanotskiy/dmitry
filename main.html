@@ -4,20 +4,20 @@
 		<title></title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="3d/style.css">
-		<link rel="icon" href="2d/img/heroMain.png" />
-		<script type="text/javascript" src="turnjs4/docs/files/extras/jquery.min.1.7.js"></script>
-		<script type="text/javascript" src="turnjs4/docs/files/extras/jquery-ui-1.8.20.custom.min.js"></script>
-		<script type="text/javascript" src="turnjs4/docs/files/extras/jquery.mousewheel.min.js"></script>
-		<script type="text/javascript" src="turnjs4/docs/files/extras/modernizr.2.5.3.min.js"></script>
-		<script type="text/javascript" src="turnjs4/docs/files/lib/hash.js"></script>
+		<link type="text/css" rel="stylesheet" href="3d/script/style.css">
+		<link rel="icon" href="3d/img/heroMain.png" />
+		<script type="text/javascript" src="3d/turnjs4/docs/files/extras/jquery.min.1.7.js"></script>
+		<script type="text/javascript" src="3d/turnjs4/docs/files/extras/jquery-ui-1.8.20.custom.min.js"></script>
+		<script type="text/javascript" src="3d/turnjs4/docs/files/extras/jquery.mousewheel.min.js"></script>
+		<script type="text/javascript" src="3d/turnjs4/docs/files/extras/modernizr.2.5.3.min.js"></script>
+		<script type="text/javascript" src="3d/turnjs4/docs/files/lib/hash.js"></script>
 
 	</head>
 	<body>
 		<div id="loadingScreen">Loading...</div>
 
 		<audio id="music" controls loop>
-			<source src="sounds/music.mp3" type="audio/mpeg">
+			<source src="3d/sounds/music.mp3" type="audio/mpeg">
 		</audio>
 
 		<button id="home" onclick="window.location.href = 'index.html'">Home &#127968;</button>
@@ -121,10 +121,10 @@
 					return button;
 				}
 
-				const button1 = createButton('down', 'mobile-button first', 'img/arrows/down.png');
-				const button2 = createButton('up', 'mobile-button second', 'img/arrows/up.png');
-				const button3 = createButton('left', 'mobile-button third', 'img/arrows/left.png');
-				const button4 = createButton('right', 'mobile-button fourth', 'img/arrows/right.png');
+				const button1 = createButton('down', 'mobile-button first', '3d/img/arrows/down.png');
+				const button2 = createButton('up', 'mobile-button second', '3d/img/arrows/up.png');
+				const button3 = createButton('left', 'mobile-button third', '3d/img/arrows/left.png');
+				const button4 = createButton('right', 'mobile-button fourth', '3d/img/arrows/right.png');
 
 				document.body.appendChild(button1);
 				document.body.appendChild(button2);
@@ -144,11 +144,11 @@
 				});
 
 				const arrs = document.createElement('img');
-				arrs.src = './img/arrows/arrs.png';
+				arrs.src = './3d/img/arrows/arrs.png';
 				arrs.id = 'arrs';
 				document.body.appendChild(arrs);
 				const wasd = document.createElement('img');
-				wasd.src = './img/arrows/wasd.png';
+				wasd.src = './3d/img/arrows/wasd.png';
 				wasd.id = 'wasd';
 				document.body.appendChild(wasd);
 			}
@@ -157,7 +157,7 @@
 			for (let i = 1; i <= 21; i++) {
 				const imgDiv = document.createElement('div');
 				imgDiv.className = 'carousel-image';
-				imgDiv.innerHTML = `<img src="turnjs4/docs/files/pages/${i}.png" alt="Image ${i}">`;
+				imgDiv.innerHTML = `<img src="3d/turnjs4/docs/files/pages/${i}.png" alt="Image ${i}">`;
 				carousel.appendChild(imgDiv);
 			}
 
@@ -182,8 +182,8 @@
 			}
 		</script>
 
-		<script type="module" rel="preload" src="3d/app.js"></script>
-		<script type="text/javascript" src="3d/flip.js" async></script>
+		<script type="module" rel="preload" src="3d/script/app.js"></script>
+		<script type="text/javascript" src="3d/script/flip.js" async></script>
 
 	</body>
 </html>

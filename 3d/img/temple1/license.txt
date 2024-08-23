@@ -1,0 +1,11 @@
+Model Information:
+* title:	Temple of Friendship
+* source:	https://sketchfab.com/3d-models/temple-of-friendship-effe849f9af346149169fb02db6cd049
+* author:	eggnot (https://sketchfab.com/eggnot)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Temple of Friendship" (https://sketchfab.com/3d-models/temple-of-friendship-effe849f9af346149169fb02db6cd049) by eggnot (https://sketchfab.com/eggnot) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
